@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %} Adoption Agency {% endblock %}
+
+{% block content %}
+{% for pet in pets %}
+<div class="pet-tile">
+    <div>
+        <img src="{{ pet.photo_url }}"
+            alt="A dog named {{ pet.name }}. They are a {{ pet.age }} year old {{ pet.species }}!">
+        {% if pet.available %}
+        <h4><a href="/{{ pet.id }}">{{ pet.name }}</a><b> is available!</b></h4>
+        {% else %}
+        <h4><a href="/{{ pet.id }}">{{ pet.name }}</a></h4>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+
+
+{% endblock %}

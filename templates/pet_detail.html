@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %} Sesame St. Adoption Agency {% endblock %}
+
+{% block content %}
+<h2>{{ pet.name }}</h2>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="flash success">
+    {{ messages[0] }}
+</div>
+{% endif %}
+{% endwith %}
+<img src="{{ pet.photo_url }}">
+<small>{{ pet.species }} Age: {{ pet.age }}</small>
+<form action="/{{ pet.id }}" method="POST">
+    {{ form.hidden_tag() }}
+    {% for field in form if field.widget.input_type != "hidden" %}
+    <p>
+        {{ field.label }}
+        {% if field.name == 'available' %}
+        <input type="checkbox" name="{{ field.name }}" value="y" {% if pet.available %}checked{% endif %}>
+        {% else %}
+        {{ field(value=pet[field.name]) }}
+        {% endif %}
+    </p>
+    {% if field.errors %}
+    <ul class="errors">
+        {% for error in field.errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endfor %}
+    <input type="submit" value="UPDATE">
+</form>
+
+{% endblock %}
